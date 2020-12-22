@@ -1,0 +1,13 @@
+# El simbolo ('#') indicará el inicio de comentario. Cada comentario será por linea
+# A continuación se presenta la simbología:
+# 0 --> Bloque o muro
+# 1 --> Espacio vacío
+# 2 --> Moneda
+# 3 --> Sin rostro
+# 4 --> Chihiro
+# 5 --> Haku
+# El mapa se debe redactar desde la primer linea del archivo que no contenga un ('#')
+# separando cada columna con un coma (',') y cada fila con un salto de linea ('\n')
+1,0,1,2,3,1,1,1,1,1,1
+4,0,0,1,0,0,0,3,0,0,5
+1,1,1,1,0,1,1,2,0,1,1
