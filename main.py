@@ -11,7 +11,7 @@ class Tree:
 
     def __init__(self, *args):
         if len(args) == 1:
-            self.movement = "Root"
+            self.movement = "START"
             self.father = None
             self.mapa = list()
             self.x = int()
@@ -31,39 +31,47 @@ class Tree:
             self.cost = args[6]
 
         self.children = list()
-        # print("Posicion:", self.x, self.y)
-        # print("Mapa:")
-        # for line in self.mapa: print(line)
-
-        # self.load_children()
-        # print("Children:", self.children)
+        self.find_coin = False
+        self.end = False
 
     def load_children(self):
-        cost = self.cost
+        if self.end:
+            return
         if self.x > 0 and self.mapa[self.x - 1][self.y] != Tree.BLOQUE:
-            # print("IZQUIERDA")
-            self.children.append(self.__aux("IZQUIERDA", -1, 0, cost))
+            self.children.append(self.__load_child("LEFT", -1, 0))
 
         if self.x < len(self.mapa[0]) - 1 and self.mapa[self.x + 1][self.y] != Tree.BLOQUE:
-            # print("DERECHA")
-            self.children.append(self.__aux("DERECHA", 1, 0, cost))
+            self.children.append(self.__load_child("RIGHT", 1, 0))
 
         if self.y > 0 and self.mapa[self.x][self.y - 1] != Tree.BLOQUE:
-            # print("ARRIBA")
-            self.children.append(self.__aux("ARRIBA", 0, -1, cost))
+            self.children.append(self.__load_child("UP", 0, -1))
 
         if self.y < len(self.mapa) - 1 and self.mapa[self.x][self.y + 1] != Tree.BLOQUE:
-            # print("ABAJO")
-            self.children.append(self.__aux("ABAJO", 0, 1, cost))
+            self.children.append(self.__load_child("DOWN", 0, 1))
 
-    def __aux(self, movement, dx, dy, cost):
+    def __load_child(self, movement, dx, dy):
+
         x = self.x + dx
         y = self.y + dy
+        cost = 0
+        if self.mapa[x][y] == Tree.ESPACIO_VACIO:
+            cost += 1
+        elif self.mapa[x][y] == Tree.MONEDA:
+            cost += 2
+            self.find_coin = True
+        elif self.mapa[x][y] == Tree.SIN_ROSTRO:
+            cost += 2
+            if self.find_coin:
+                self.find_coin = False
+                cost -= 5
+        elif self.mapa[x][y] == Tree.HAKU:
+            cost += 1
+            self.end = True
         mapa = deepcopy(self.mapa)
         mapa[self.y][self.x] = Tree.ESPACIO_VACIO
         mapa[y][x] = Tree.CHIHIRO
         depth = self.depth + 1
-        # cost = self.cost
+        cost += self.cost
         return Tree(movement, self, mapa, x, y, depth, cost)
 
     def __str__(self):
@@ -71,11 +79,23 @@ class Tree:
         # print("Mapa:")
         # for line in self.mapa: print(line)
         string = self.movement + "\n"
-        string += "Posición: " + str(self.x) + " " + str(self.y) + "\n"
-        string += "Mapa:\n"
+        string += "POSITION: " + str(self.x) + " " + str(self.y) + "\n"
+        string += "COST: " + str(self.cost) + "\n"
+        string += "DEPTH: " + str(self.depth) + "\n"
+        string += "RUTE:" + self.calculate_rute() + "\n"
+        string += "\t\t\tBOARD\n"
+
         for sup in self.mapa:
             string += str(sup) + "\n"
         return string
+
+    def calculate_rute(self):
+        node = self
+        rute = ""
+        while node is not None:
+            rute = " -> " + node.movement + rute
+            node = node.father
+        return rute
 
     def load_file(self, ruta: str):
         file = open(ruta)
