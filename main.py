@@ -150,21 +150,12 @@ def busqueda_por_amplitud():
     return "No se ha encontrado una solución"
 
 
-# tree_father.load_children()
-# for children in tree_father.children:
-#    print(children)
-
-# print(busqueda_por_amplitud(tree_father))
-
-
 def animated_loading(process):
     while process.is_alive():
         chars = [".", "..", "...", "....", "....."]
         for char in chars:
             print('\r' + 'Processing' + char, end="")
             time.sleep(0.3)
-            #            sys.stdout.flush()
-            #print(flush=True, end="")
 
 
 loading_process = threading.Thread(target=busqueda_por_amplitud)
