@@ -1,17 +1,31 @@
 class Tree:
 
-    def __init__(self, ruta):
-        self.__mapa = list()
-        self.__x = int()
-        self.__y = int()
+    def __init__(self, *args):
+        if len(args) == 1:
+            self.movement = "Root"
+            self.father = None
+            self.mapa = list()
+            self.x = int()
+            self.y = int()
+            self.depth = 0
+            self.cost = 0
 
-        self.load_file(ruta)
-        self.children = list()
-        print(self.__x, self.__y)
-        print(self.__mapa[self.__y][self.__x])
-        for line in self.__mapa:
-            print(line)
-        # self.load_children()
+            self.load_file(args[0])
+            self.children = list()
+            print(self.x, self.y)
+
+            for line in self.mapa:
+                print(line)
+        else:
+            self.father = args[0]
+            self.mapa = args[1]
+            self.x = args[2]
+            self.y = args[3]
+            self.depth = args[4]
+            self.cost = args[5]
+
+    def load_children(self):
+        pass
 
     def load_file(self, ruta: str):
         file = open(ruta)
@@ -32,16 +46,15 @@ class Tree:
             for char in line:
                 if char != "\n":
                     if char == '4':
-                        self.__x = width
-                        self.__y = heigth
+                        self.x = width
+                        self.y = heigth
                     temporal_line.append(int(char))
                 width += 1
             mapa.append(temporal_line)
             heigth += 1
-        self.__mapa = mapa
-
-    def load_children(self):
-        pass
+        self.mapa = mapa
 
 
-tree = Tree("map/map1.txt")
+tree_father = Tree("map/map1.txt")
+tree_children = Tree(tree_father, tree_father.mapa, 1, 3, 1, 2, "derecha")
+print(tree_children.cost)
