@@ -3,29 +3,20 @@ def cargar(ruta: str):
     content = file.readlines()
 
     board = str()
-    width = int()
-    height = 0
+    mapa = list()
     for line in content:
         if line[0] == '#':
             continue
 
         board += line
-        width = int(max(len(line) / 2, width))
-        height += 1
+        line = line.replace(",", "")
+        temporal_line = list()
+        for char in line:
+            if char != "\n":
+                temporal_line.append(int(char))
+        mapa.append(temporal_line)
 
-    print("EL tamaño del mapa es: {}x{}".format(width, height))
-
-    board = board.replace(",", "")
-    board += "\n"
-
-    mapa = list()
-    temporal_line = list()
-    for char in board:
-        if char == '\n':
-            mapa.append(temporal_line)
-            temporal_line = list()
-        else:
-            temporal_line.append(int(char))
+    return mapa
 
 
-cargar("map/map1.txt")
+print(cargar("map/map1.txt"))
