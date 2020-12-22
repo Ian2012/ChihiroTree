@@ -1,3 +1,6 @@
+import sys
+import threading
+import time
 from copy import deepcopy
 
 
@@ -123,7 +126,8 @@ class Tree:
         self.mapa = mapa
 
 
-def busqueda_por_amplitud(root):
+def busqueda_por_amplitud():
+    root = Tree("map/map1.txt")
     qeue = list()
     qeue.append(root)
 
@@ -131,9 +135,11 @@ def busqueda_por_amplitud(root):
     while qeue:
 
         node = qeue[0]
-        print(node)
+
         # print(node.depth)
         if node.end:
+            print("\n")
+            print(node)
             return node
 
         node.load_children()
@@ -144,9 +150,24 @@ def busqueda_por_amplitud(root):
     return "No se ha encontrado una solución"
 
 
-tree_father = Tree("map/map1.txt")
-tree_father.load_children()
+# tree_father.load_children()
 # for children in tree_father.children:
 #    print(children)
 
-print(busqueda_por_amplitud(tree_father))
+# print(busqueda_por_amplitud(tree_father))
+
+
+def animated_loading(process):
+    while process.is_alive():
+        chars = [".", "..", "...", "....", "....."]
+        for char in chars:
+            print('\r' + 'Processing' + char, end="")
+            time.sleep(0.3)
+            #            sys.stdout.flush()
+            #print(flush=True, end="")
+
+
+loading_process = threading.Thread(target=busqueda_por_amplitud)
+loading_process.start()
+animated_loading(loading_process)
+loading_process.join()
