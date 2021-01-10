@@ -1,7 +1,5 @@
-import threading
-import time
-
 from Tree import Tree
+from Utilities import init
 
 
 def busqueda_por_amplitud():
@@ -28,15 +26,4 @@ def busqueda_por_amplitud():
     return "No se ha encontrado una solución"
 
 
-def animated_loading(process):
-    while process.is_alive():
-        chars = [".", "..", "...", "....", "....."]
-        for char in chars:
-            print('\r' + 'Processing' + char, end="")
-            time.sleep(0.3)
-
-
-loading_process = threading.Thread(target=busqueda_por_amplitud)
-loading_process.start()
-animated_loading(loading_process)
-loading_process.join()
+init(busqueda_por_amplitud)
