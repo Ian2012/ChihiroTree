@@ -1,4 +1,4 @@
-from Tree import Tree
+from tree import Tree
 
 
 def bfs():

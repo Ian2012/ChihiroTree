@@ -1,4 +1,4 @@
-import Search
-import Utilities
+import search
+import utilities
 
-Utilities.init(Search.bfs)
+utilities.init(search.bfs)
