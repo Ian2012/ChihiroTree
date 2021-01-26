@@ -1,3 +1,4 @@
+import math
 from copy import deepcopy
 
 
@@ -19,6 +20,8 @@ class Tree:
             self.depth = 0
             self.cost = 0
             self.end = False
+            self.meta_x = -1
+            self.meta_y = -1
             self.load_file(args[0])
 
         else:
@@ -30,9 +33,13 @@ class Tree:
             self.depth = args[5]
             self.cost = args[6]
             self.end = args[7]
+            self.meta_x = self.father.meta_x
+            self.meta_y = self.father.meta_y
 
         self.children = list()
         self.find_coin = False
+        # print("G(n): " + str(self.g()) + " <= " "H(n): " + str(self.h()))
+        assert self.g() >= self.h()
 
     def load_children(self):
         if self.end:
@@ -75,6 +82,15 @@ class Tree:
         cost += self.cost
         return Tree(movement, self, mapa, x, y, depth, cost, end)
 
+    def g(self):
+        return abs(self.x - self.meta_x) + abs(self.y - self.meta_y)
+
+    def h(self):
+        return math.sqrt(math.pow(self.x - self.meta_x, 2) + math.pow(self.y - self.meta_y, 2))
+
+    def f(self):
+        return self.g() + self.h()
+
     def __str__(self):
         string = self.movement + "\n"
         string += "POSITION: " + str(self.x) + " " + str(self.y) + " " + str(self.mapa[self.y][self.x]) + "\n"
@@ -116,6 +132,9 @@ class Tree:
                     if char == '4':
                         self.x = width
                         self.y = heigth
+                    elif char == '5':
+                        self.meta_x = width
+                        self.meta_y = heigth
                     temporal_line.append(int(char))
                 width += 1
             mapa.append(temporal_line)
