@@ -3,11 +3,13 @@ import time
 
 
 def animated_loading(process):
+    t0 = time.process_time()
     while process.is_alive():
         chars = [".", "..", "...", "....", "....."]
         for char in chars:
             print('\r' + 'Processing' + char, end="")
-            time.sleep(0.3)
+            time.sleep(0.01)
+    print("\nTime elapsed:", (time.process_time() - t0))
 
 
 def init(function):
