@@ -1,4 +1,3 @@
-import math
 from copy import deepcopy
 
 
@@ -39,7 +38,7 @@ class Tree:
         self.children = list()
         self.find_coin = False
         # print("G(n): " + str(self.g()) + " <= " "H(n): " + str(self.h()))
-        assert self.g() >= self.h()
+        # assert self.g() >= self.h()
 
     def load_children(self):
         if self.end:
@@ -83,10 +82,12 @@ class Tree:
         return Tree(movement, self, mapa, x, y, depth, cost, end)
 
     def g(self):
-        return abs(self.x - self.meta_x) + abs(self.y - self.meta_y)
+        # return abs(self.x - self.meta_x) + abs(self.y - self.meta_y)
+        return self.cost
 
     def h(self):
-        return math.sqrt(math.pow(self.x - self.meta_x, 2) + math.pow(self.y - self.meta_y, 2))
+        # return math.sqrt(math.pow(self.x - self.meta_x, 2) + math.pow(self.y - self.meta_y, 2))
+        return abs(self.x - self.meta_x) + abs(self.y - self.meta_y)
 
     def f(self):
         return self.g() + self.h()
