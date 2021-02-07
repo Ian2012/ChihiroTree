@@ -97,7 +97,7 @@ class Tree:
         return self.g() + self.h()
 
     def __str__(self):
-        string = self.movement + "\n"
+        string = "\n" + self.movement + "\n"
         string += "POSITION: " + str(self.x) + " " + str(self.y) + " " + str(self.mapa[self.y][self.x]) + "\n"
         string += "COST: " + str(self.cost) + "\n"
         string += "DEPTH: " + str(self.depth) + "\n"
