@@ -36,7 +36,7 @@ class Tree:
             self.meta_y = self.father.meta_y
 
         self.children = list()
-        self.find_coin = False
+        self.acumulated_coins = 0
         # print("G(n): " + str(self.g()) + " <= " "H(n): " + str(self.h()))
         # assert self.g() >= self.h()
 
@@ -65,12 +65,11 @@ class Tree:
             cost += 1
         elif self.mapa[y][x] == Tree.MONEDA:
             cost += 2
-            self.find_coin = True
+            self.acumulated_coins += 1
         elif self.mapa[y][x] == Tree.SIN_ROSTRO:
             cost += 2
-            if self.find_coin:
-                self.find_coin = False
-                cost -= 5
+            cost -= 5 * self.acumulated_coins
+            self.acumulated_coins = 0
         elif self.mapa[y][x] == Tree.HAKU:
             cost += 1
             end = True
