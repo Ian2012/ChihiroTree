@@ -7,6 +7,8 @@ def animated_loading(process):
     while process.is_alive():
         chars = [".", "..", "...", "....", "....."]
         for char in chars:
+            if not process.is_alive():
+                break
             print('\r' + 'Processing' + char, end="")
             time.sleep(0.01)
     print("\nTime elapsed:", (time.process_time() - t0))
