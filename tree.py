@@ -69,6 +69,7 @@ class Tree:
         elif self.mapa[y][x] == Tree.MONEDA:
             cost += 2
             self.acumulated_coins += 1
+            self.mapa[y][x] = Tree.ESPACIO_VACIO
         elif self.mapa[y][x] == Tree.SIN_ROSTRO:
             cost += 2
             cost -= 5 * self.acumulated_coins
