@@ -40,6 +40,22 @@ def a():
             qeue.put(PrioritizedItem(child.f(), child))
 
 
+def costo_uniforme():
+    root = Tree("map/map1.txt")
+    qeue = PriorityQueue()
+    qeue.put(PrioritizedItem(root.f(), root))
+
+    while qeue:
+        node = qeue.get().item
+        if node.end:
+            print("\n\n", node)
+            return node
+
+        node.load_children()
+        for child in node.children:
+            qeue.put(PrioritizedItem(child.g(), child))
+
+
 @dataclass(order=True)
 class PrioritizedItem:
     priority: int
