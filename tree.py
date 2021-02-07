@@ -22,6 +22,7 @@ class Tree:
             self.meta_x = -1
             self.meta_y = -1
             self.load_file(args[0])
+            self.acumulated_coins = 0
 
         else:
             self.movement = args[0]
@@ -32,11 +33,12 @@ class Tree:
             self.depth = args[5]
             self.cost = args[6]
             self.end = args[7]
+            self.acumulated_coins = args[8]
             self.meta_x = self.father.meta_x
             self.meta_y = self.father.meta_y
 
         self.children = list()
-        self.acumulated_coins = 0
+
         # print("G(n): " + str(self.g()) + " <= " "H(n): " + str(self.h()))
         # assert self.g() >= self.h()
 
@@ -61,6 +63,7 @@ class Tree:
         y = self.y + dy
         cost = 0
         end = False
+        acumulated_coins = 0
         if self.mapa[y][x] == Tree.ESPACIO_VACIO:
             cost += 1
         elif self.mapa[y][x] == Tree.MONEDA:
@@ -78,7 +81,8 @@ class Tree:
         mapa[y][x] = Tree.CHIHIRO
         depth = self.depth + 1
         cost += self.cost
-        return Tree(movement, self, mapa, x, y, depth, cost, end)
+        acumulated_coins += self.acumulated_coins
+        return Tree(movement, self, mapa, x, y, depth, cost, end, acumulated_coins)
 
     def g(self):
         # return abs(self.x - self.meta_x) + abs(self.y - self.meta_y)
