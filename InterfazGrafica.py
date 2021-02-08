@@ -53,38 +53,27 @@ class Chihiro(pygame.sprite.Sprite):
         superficie.blit(self.image, self.rect)
 
 
-# mapa = [
-#     [1, 0, 1, 2, 3, 1, 1, 1, 1, 1, 1],
-#     [4, 0, 0, 1, 0, 0, 0, 3, 0, 0, 5],
-#     [1, 1, 1, 1, 0, 1, 1, 2, 0, 1, 1],
-# ]
-
-
-def viajeChihiro(nodos):
-    mapa = nodos[0].mapa
+def viajeChihiro(nodos, nombre):
+    nodo = nodos[0]
+    mapa = nodo.mapa
     iterador = iter(nodos)
     pared = Pared()
     chihiro = Chihiro()
     noFace = No_face()
     coin = Coin()
     haku = Haku()
-    ANCHO = len(mapa[0]) * 80
+    ANCHO = len(mapa[0]) * 80 + 300
     ALTO = len(mapa) * 80
     ventana = pygame.display.set_mode((ANCHO, ALTO))
-    pygame.display.set_caption('Viaje de Chihiro')
+    pygame.display.set_caption('Viaje de Chihiro: ' + nombre)
     reloj = pygame.time.Clock()
     game_over = False
-    monedas = 0
-    energia = 0
 
-    def tiene_monedas(moneda):
-        if moneda > 0:
-            return True
-        else:
-            return False
+    pygame.font.init()  # you have to call this at the start,
+    # if you want to use this module.
+    myfont = pygame.font.SysFont('Comic Sans MS', 30)
 
     while not game_over:
-        n = 2
         reloj.tick(60)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -93,12 +82,16 @@ def viajeChihiro(nodos):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_SPACE:
                     try:
-                        mapa = next(iterador).mapa
+                        nodo = next(iterador)
+                        mapa = nodo.mapa
                     except StopIteration:
                         print("Fin")
         # Fondo
         ventana.fill("skyblue")
-
+        # textsurface = myfont.render('Costo: '  + str(nodo.g()), False, (255, 255, 255))
+        # ventana.blit(textsurface, (len(mapa[0])*80, 20))
+        draw_string('Costo: ' + str(nodo.g()), len(mapa[0]) * 80, 20, ventana, myfont)
+        draw_string('Monedas: ' + str(nodo.acumulated_coins), len(mapa[0]) * 80, 50, ventana, myfont)
         # ---------- Area de Dibujo
         coord_x = 0
         coord_y = 0
@@ -130,7 +123,10 @@ def viajeChihiro(nodos):
                 coord_x += 80
             coord_x = 0
             coord_y += 80
-        # Actualizar Pantalla
-        # dibujar_mapa(ventana, listaMuro)
         pygame.display.flip()
     pygame.quit()
+
+
+def draw_string(string: str, x, y, ventana, font):
+    textsurface = font.render(string, False, (255, 255, 255))
+    ventana.blit(textsurface, (x, y))

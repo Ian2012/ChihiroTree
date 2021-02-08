@@ -1,5 +1,6 @@
 from copy import deepcopy
 
+
 class Tree:
     BLOQUE = 0
     ESPACIO_VACIO = 1
@@ -38,9 +39,6 @@ class Tree:
 
         self.children = list()
 
-        # print("G(n): " + str(self.g()) + " <= " "H(n): " + str(self.h()))
-        # assert self.g() >= self.h()
-
     def load_children(self):
         if self.end:
             return
@@ -63,17 +61,21 @@ class Tree:
         cost = 0
         end = False
         acumulated_coins = 0
+        encontrado = False
         mapa = deepcopy(self.mapa)
         if self.mapa[y][x] == Tree.ESPACIO_VACIO:
             cost += 1
         elif self.mapa[y][x] == Tree.MONEDA:
             cost += 2
-            self.acumulated_coins += 1
+            acumulated_coins = 1
             mapa[y][x] = Tree.ESPACIO_VACIO
         elif self.mapa[y][x] == Tree.SIN_ROSTRO:
             cost += 2
             cost -= 5 * self.acumulated_coins
-            self.acumulated_coins = 0
+            encontrado = True
+            # self.acumulated_coins = 0
+
+            acumulated_coins = 0
         elif self.mapa[y][x] == Tree.HAKU:
             cost += 1
             end = True
@@ -82,7 +84,8 @@ class Tree:
         mapa[y][x] = Tree.CHIHIRO
         depth = self.depth + 1
         cost += self.cost
-        acumulated_coins += self.acumulated_coins
+        if not encontrado:
+            acumulated_coins += self.acumulated_coins
         return Tree(movement, self, mapa, x, y, depth, cost, end, acumulated_coins)
 
     def g(self):

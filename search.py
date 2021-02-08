@@ -4,7 +4,7 @@ from typing import Any
 
 from tree import Tree
 
-ruta = list()
+
 def bfs():
     root = Tree("map/map1.txt")
     qeue = list()
@@ -22,8 +22,6 @@ def bfs():
 
     return "No se ha encontrado una solución"
 
-def obtener_mapa():
-    return ruta
 
 def a():
     root = Tree("map/map1.txt")
@@ -33,7 +31,7 @@ def a():
     while qeue:
         node = qeue.get().item
         if node.end:
-            #print("\n\n", node)
+            print("\n\n", node)
             return node
 
         node.load_children()
@@ -44,7 +42,7 @@ def a():
 def costo_uniforme():
     root = Tree("map/map1.txt")
     qeue = PriorityQueue()
-    qeue.put(PrioritizedItem(root.f(), root))
+    qeue.put(PrioritizedItem(root.g(), root))
 
     while qeue:
         node = qeue.get().item
