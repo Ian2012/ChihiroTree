@@ -1,5 +1,8 @@
 from copy import deepcopy
 
+ruta_agente = list()
+mapita = [[]]
+
 
 class Tree:
     BLOQUE = 0
@@ -64,12 +67,13 @@ class Tree:
         cost = 0
         end = False
         acumulated_coins = 0
+        mapa = deepcopy(self.mapa)
         if self.mapa[y][x] == Tree.ESPACIO_VACIO:
             cost += 1
         elif self.mapa[y][x] == Tree.MONEDA:
             cost += 2
             self.acumulated_coins += 1
-            self.mapa[y][x] = Tree.ESPACIO_VACIO
+            mapa[y][x] = Tree.ESPACIO_VACIO
         elif self.mapa[y][x] == Tree.SIN_ROSTRO:
             cost += 2
             cost -= 5 * self.acumulated_coins
@@ -77,7 +81,7 @@ class Tree:
         elif self.mapa[y][x] == Tree.HAKU:
             cost += 1
             end = True
-        mapa = deepcopy(self.mapa)
+
         mapa[self.y][self.x] = Tree.ESPACIO_VACIO
         mapa[y][x] = Tree.CHIHIRO
         depth = self.depth + 1
@@ -113,6 +117,15 @@ class Tree:
         rute = ""
         while node is not None:
             rute = " -> " + node.movement + rute
+            ruta_agente.append(rute)
+            node = node.father
+        return rute
+
+    def calculate_nodo(self):
+        node = self
+        rute = list()
+        while node is not None:
+            rute = [node] + rute
             node = node.father
         return rute
 
@@ -144,4 +157,11 @@ class Tree:
                 width += 1
             mapa.append(temporal_line)
             heigth += 1
+            mapita.append(mapa)
         self.mapa = mapa
+
+    def obtener_ruta(self):
+        return ruta_agente
+
+    def obtener_mapa(self):
+        return mapita
