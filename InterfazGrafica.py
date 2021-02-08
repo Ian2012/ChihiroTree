@@ -86,6 +86,7 @@ def viajeChihiro(nodos, nombre):
                         mapa = nodo.mapa
                     except StopIteration:
                         print("Fin")
+                        game_over = True
         # Fondo
         ventana.fill("skyblue")
 
