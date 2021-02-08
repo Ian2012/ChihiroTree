@@ -2,7 +2,7 @@ import pygame
 
 pygame.init()
 
-
+print("hola")
 class Pared(pygame.sprite.Sprite):
     def __init__(self):
         super().__init__()
