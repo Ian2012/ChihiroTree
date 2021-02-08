@@ -88,11 +88,10 @@ def viajeChihiro(nodos, nombre):
                         print("Fin")
         # Fondo
         ventana.fill("skyblue")
-        # textsurface = myfont.render('Costo: '  + str(nodo.g()), False, (255, 255, 255))
-        # ventana.blit(textsurface, (len(mapa[0])*80, 20))
+
         draw_string('Costo: ' + str(nodo.g()), len(mapa[0]) * 80, 20, ventana, myfont)
         draw_string('Monedas: ' + str(nodo.acumulated_coins), len(mapa[0]) * 80, 50, ventana, myfont)
-        # ---------- Area de Dibujo
+
         coord_x = 0
         coord_y = 0
 
