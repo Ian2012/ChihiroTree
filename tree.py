@@ -1,9 +1,5 @@
 from copy import deepcopy
 
-ruta_agente = list()
-mapita = [[]]
-
-
 class Tree:
     BLOQUE = 0
     ESPACIO_VACIO = 1
@@ -117,7 +113,6 @@ class Tree:
         rute = ""
         while node is not None:
             rute = " -> " + node.movement + rute
-            ruta_agente.append(rute)
             node = node.father
         return rute
 
@@ -157,11 +152,4 @@ class Tree:
                 width += 1
             mapa.append(temporal_line)
             heigth += 1
-            mapita.append(mapa)
         self.mapa = mapa
-
-    def obtener_ruta(self):
-        return ruta_agente
-
-    def obtener_mapa(self):
-        return mapita
